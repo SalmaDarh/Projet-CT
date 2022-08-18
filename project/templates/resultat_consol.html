@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<h2 align="center">Résultat de la consolidation du  {{depart}} au {{fin}}</h2>
+
+<div>
+    <h3>L'écart DTT = {{ecart_dtt}} MAD</h3>
+    <h3>L'écart agence = {{ecart_agence}} MAD</h3>
+    <h3>L'écart depositaire = {{ecart_depositaire}} MAD</h3>
+<br></br>
+<br></br>
+    <h4>Pour plus de détails, Veuillez copier le lien ci-dessous dans un nouvel onglet:</h4>
+    <p>file:///C:\Users\lenovo\FlaskProject\project\Result_ConsolFiles\Fichier_Resultat_Du_{{depart}}_Au_{{fin}}.xlsx</p>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<h2 align="center">Fichiers résultats de la consolidation des recettes: </h2>
+
+<ul>
+    {% for file in files %}
+        <li class="collection-item">{{ file }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
