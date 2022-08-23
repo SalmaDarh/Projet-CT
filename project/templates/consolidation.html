@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<h2 align="center">Consolidation des recettes</h2>
+<h2 align="center" style="color: #3274d6;">Consolidation des recettes</h2>
 <div>
     <h3>Veuillez choisir une date de début et une date de fin:</h3>
     <form action="{{ url_for('consolidation') }}" method="post">
@@ -17,7 +17,7 @@
 </div>
 
 <div>
-    <h3>Veuillez télécharger les fichiers de consolidation des recettes:</h3>
+    <h3>Veuillez sélectionner les fichiers de consolidation des recettes:</h3>
     {{msg}}
     <br>
     <form action="{{ url_for('consolidation') }}" method="post" enctype="multipart/form-data">
@@ -27,7 +27,7 @@
 </div>
 
 <div>
-    <h3>Veuillez télécharger le fichier BO:</h3>
+    <h3>Veuillez sélectionner le fichier BO à jour:</h3>
     <br>
     <form action="{{ url_for('consolidation') }}" method="post" enctype="multipart/form-data">
         <input type="file" value="Upload" name="uploadBo" id="uploadBo" >

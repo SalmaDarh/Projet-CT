@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<h2 align="center">Contrôle Bancaire par date de transaction</h2>
+<h2 align="center" style="color: #3274d6;">Contrôle Bancaire par date de transaction</h2>
 <div>
     <h3>Veuillez choisir une date de début et une date de fin:</h3>
     <form action="{{ url_for('controleTransaction') }}" method="post">
@@ -17,7 +17,7 @@
 </div>
 
 <div>
-    <h3>Veuillez télécharger le fichier des transactions:</h3>
+    <h3>Veuillez sélectionner le fichier des transactions:</h3>
     <br>
     <form action="{{ url_for('controleTransaction') }}" method="post" enctype="multipart/form-data">
         <input type="file" value="Upload" name="uploadExcels" id="uploadExcels" >
@@ -26,7 +26,7 @@
 </div>
 
 <div>
-    <h3>Veuillez télécharger le fichier BO:</h3>
+    <h3>Veuillez sélectionner le fichier BO:</h3>
     <br>
     <form action="{{ url_for('controleTransaction') }}" method="post" enctype="multipart/form-data">
         <input type="file" value="Upload" name="uploadBoe" id="uploadBoe" >

@@ -15,7 +15,9 @@ body {
     background-color: #435165;
     margin: 0;
 }
-
+strong{
+    font-size: 18px;
+}
 .login, .register {
     width: 350px;
     background-color: #ffffff;
@@ -26,7 +28,13 @@ body {
 
 }
 
+.red {
+    color:#FF0000;
+}
 
+.green {
+    color:#33FF3C;
+}
 
 .login h1,.logine h1, .register h1 {
     text-align: center;

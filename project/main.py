@@ -1,14 +1,13 @@
 #1. necessary importations:
-from multiprocessing import context
-from flask import Flask, render_template, request, redirect, url_for,send_file
+from flask import Flask, render_template, request, redirect, url_for
 import os
 import numpy as np
 import pandas as pd
 from flask_sqlalchemy import SQLAlchemy 
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import Admin
-from flask_login import UserMixin,LoginManager,current_user,login_user,logout_user,login_required
-from datetime import date, datetime, timedelta
+from flask_login import UserMixin,LoginManager,login_user,logout_user,login_required
+from datetime import datetime, timedelta
 
 
 #2. Create variables and configure MySQL connection details:
@@ -157,6 +156,9 @@ def datespan(startDate, endDate, delta=timedelta(days=1)):
         currentDate += delta
 
 
+
+
+
 @app.route('/accueil/consolidation/',methods = ['POST', 'GET'])
 def consolidation():
     #Declarations:
@@ -167,7 +169,8 @@ def consolidation():
         #1ère partie concerne la saisie de la date de début et celle de fin:
             startDate=datetime.strptime(request.form['start_date'],'%Y-%m-%d') #Modification de la forme de str à date:
             endDate=datetime.strptime(request.form['end_date'],'%Y-%m-%d')
-            return("Dates ajoutées avec succès!!!")
+            
+
 
         #La 2ème partie concerne le traitement des fichiers de consolidation: 
         if request.form['action']=='ExcelFiles':
@@ -176,8 +179,6 @@ def consolidation():
             data = []
             file=[] 
             app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER_1
-            print("Teeeeeeeeeest")
-            print(len(file))
             files = request.files.getlist("uploadExcel")
             for fic in files:
                 fic.save(os.path.join(app.config['UPLOAD_FOLDER'], fic.filename))
@@ -391,7 +392,6 @@ def consolidation():
             depart=startDate.strftime("%Y-%m-%d")
             fin=endDate.strftime("%Y-%m-%d")
             data0.to_excel(r'C:\Users\lenovo\FlaskProject\project\GeneratedConsolFiles\Fichier_De_Consolidation_Générée_Du_'+str(depart)+'_Au_'+str(fin)+'.xlsx',index=False)
-            return("Fichiers de consolidations ajoutés avec succès!!!")
               
            
         #UPload file BO + Son Traitement:
@@ -412,14 +412,12 @@ def consolidation():
             depo_total = data0["ca_depo_support_b"] + data0["ca_depo_support_c"] + data0["ca_depo_voyage"] + data0["ca_depo_ab_hebdo"] + data0["ca_depo_ab_mens"] + data0["ca_depo_ab_mens_etud"]
             data0.insert(41, 'depo_total', depo_total)
 
-            
-
-
             #calcul total row
             #data0.loc['Somme']= data0.sum()
             data0 = data0.sort_values(by=['date'])
             depart=startDate.strftime("%Y-%m-%d")
             fin=endDate.strftime("%Y-%m-%d")
+            
             data0.to_excel(r'C:\Users\lenovo\FlaskProject\project\Result_ConsolFiles\Fichier_Resultat_Du_'+str(depart)+'_Au_'+str(fin)+'.xlsx',index=False)
             
             file_result =r'C:\Users\lenovo\FlaskProject\project\Result_ConsolFiles\Fichier_Resultat_Du_'+str(depart)+'_Au_'+str(fin)+'.xlsx'
@@ -468,7 +466,6 @@ def controleTransaction():
         if request.form['action']=='Confirmer':
             startDate=datetime.strptime(request.form['startdate'],'%Y-%m-%d') #Modification de la forme de str à date:
             endDate=datetime.strptime(request.form['enddate'],'%Y-%m-%d')           
-            return("Dates ajoutées!!!")
 
         #La 2ème partie concerne le traitement des transactions:
         if request.form['action']=='ExcelFile':
@@ -480,11 +477,9 @@ def controleTransaction():
             #concat all transactions
             result = pd.concat(pd.read_excel(fil, sheet_name=None) , ignore_index=True)
             #Rename columns, drop ...
-            result = result.drop(columns=['Nom Commerçant', 'ID Commerçant', 'ARN', 'N° Carte', 'Type carte'])
+            #result = result.drop(columns=['Nom Commerçant', 'ID Commerçant', 'ARN', 'N° Carte', 'Type carte'])
             result = result.rename(columns={'Date Transaction':'Date et Heure Transaction','Montant ':'Montant Naps'}, inplace = False) 
             result['Date et Heure Transaction']= pd.to_datetime(result['Date et Heure Transaction'])
-
-            return("Fichier des transactions ajoutés avec succès!!!")
               
            
         #UPload file BO + Traitements:
@@ -531,7 +526,6 @@ def controleTraitement():
         if request.form['action']=='Confirmer':
             startDate=datetime.strptime(request.form['startdate'],'%Y-%m-%d') #Modification de la forme de str à date:
             endDate=datetime.strptime(request.form['enddate'],'%Y-%m-%d')           
-            return("Dates ajoutées!!!")
 
         #La 2ème partie concerne le traitement des transactions:
         if request.form['action']=='ExcelFile':
@@ -545,8 +539,6 @@ def controleTraitement():
             result = result.rename(columns={'Date Transaction':'Date et Heure Transaction','Montant ':'Montant'}, inplace = False) 
             result['Date Traitement']= pd.to_datetime(result['Date Traitement'])
             result = result.rename(columns={'Montant':'Montant Naps'}, inplace = False)
-
-            return("Fichier des transactions ajoutés avec succès!!!")
               
            
         #UPload file BO + Traitements:

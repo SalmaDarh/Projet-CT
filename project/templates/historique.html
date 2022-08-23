@@ -4,14 +4,14 @@
 
 {% block content %}
 
-<h2 align="center">Consulter l'historique:</h2>
+<h2 align="center" style="color: #3274d6;">Consulter l'historique:</h2>
 
     <div class="link">
         <a href="{{ url_for('consol_file') }}" class="active" text-size="100px">Fichiers de Consolidation des recettes</a>
     </div>
 
     <div class="link">
-		<a href="{{ url_for('controle_file') }}" class="active">Fichiers du Contrôle bancaire</a>
+		<a href="{{ url_for('controle_file') }}">Fichiers du Contrôle bancaire</a>
     </div>
 
     <div class="link">
@@ -23,7 +23,7 @@
 	  </div>
 
     <div class="link">
-      <a href="{{ url_for('result_Controlefile') }}" >Fichiers résultat du contrôle bancaire</a>			
+      <a href="{{ url_for('result_Controlefile') }}"  class="active">Fichiers résultat du contrôle bancaire</a>			
     </div>
 
 {% endblock %}
