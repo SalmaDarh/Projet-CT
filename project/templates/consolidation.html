@@ -4,9 +4,10 @@
 
 {% block content %}
 
-<h2 align="center" style="color: #3274d6;">Consolidation des recettes</h2>
+<h1 class="consol" style="color: #f29526; font-weight: bold;">Consolidation des recettes</h1>
+
 <div>
-    <h3>Veuillez choisir une date de début et une date de fin:</h3>
+    <h2 style="color: #008bcc;">Veuillez choisir une date de début et une date de fin:</h2>
     <form action="{{ url_for('consolidation') }}" method="post">
         <label for="startDate" >Date début:</label>
         <input type="date" name="start_date" id="start_date"  required>
@@ -17,9 +18,7 @@
 </div>
 
 <div>
-    <h3>Veuillez sélectionner les fichiers de consolidation des recettes:</h3>
-    {{msg}}
-    <br>
+    <h2 style="color: #008bcc;">Veuillez sélectionner les fichiers de consolidation des recettes:</h2>
     <form action="{{ url_for('consolidation') }}" method="post" enctype="multipart/form-data">
         <input type="file" value="Upload" name="uploadExcel" id="uploadExcel" multiple>
         <input type="submit" name="action" value="ExcelFiles" >
@@ -27,7 +26,7 @@
 </div>
 
 <div>
-    <h3>Veuillez sélectionner le fichier BO à jour:</h3>
+    <h2 style="color: #008bcc;">Veuillez sélectionner le fichier BO à jour:</h2>
     <br>
     <form action="{{ url_for('consolidation') }}" method="post" enctype="multipart/form-data">
         <input type="file" value="Upload" name="uploadBo" id="uploadBo" >

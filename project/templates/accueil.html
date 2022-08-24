@@ -4,10 +4,9 @@
 
 {% block content %}
 
-<h2 align="center" style="color: #3274d6;">Page d'accueil</h2>
 <img src="{{url_for('static', filename='logo_CT.png')}}" class="center" alt="Logo de Casa Transports"  height="200" width="300" />
-<div class="login">
-		<h1>Veuillez choisir une opération:</h1>
+<div class="login" align="center">
+		<h1 style="color: #f29526;">Veuillez choisir une opération:</h1>
 			<div class="links">
 				<a href="{{ url_for('consolidation') }}" class="active" >Consolidation des recettes</a>
 				<a href="{{ url_for('ChoixControle') }}">Contrôle bancaire</a>
