@@ -148,15 +148,6 @@ def logout():
 
 
 
-#prepare dates and weeks ranges
-def datespan(startDate, endDate, delta=timedelta(days=1)):
-    currentDate = startDate
-    while currentDate < endDate:
-        yield currentDate
-        currentDate += delta
-
-
-
 
 
 @app.route('/accueil/consolidation/',methods = ['POST', 'GET'])
@@ -168,8 +159,7 @@ def consolidation():
         if request.form['action']=='Valider':
         #1ère partie concerne la saisie de la date de début et celle de fin:
             startDate=datetime.strptime(request.form['start_date'],'%Y-%m-%d') #Modification de la forme de str à date:
-            endDate=datetime.strptime(request.form['end_date'],'%Y-%m-%d')
-            
+            endDate=datetime.strptime(request.form['end_date'],'%Y-%m-%d') 
 
 
         #La 2ème partie concerne le traitement des fichiers de consolidation: 
@@ -282,43 +272,81 @@ def consolidation():
                     #affichage colonne de l'erreur si ecart != 0
                     for j in range(len(results[i])) :
                         if results[i]['Dtt Ecart support'][j] != 0 :
-                            print(results[i]['Date'][j]+" : Probleme DTT Support\n")
+                            phrase="Probleme DTT Support"
+                            var=results[i]['Date'][j]
+                            return render_template('Probleme.html',phrase=phrase,var=var)
                         if results[i]['Dtt chargement'][j] != 0  :
-                            print(results[i]['Date'][j]+" : Probleme DTT Chargement\n")
+                            phrase="Probleme DTT Chargement"
+                            var=results[i]['Date'][j]
+                            return render_template('Probleme.html',phrase=phrase,var=var)
                         if results[i]['Dtt Ecart Ab Hebdo'][j] != 0  :
-                            print(results[i]['Date'][j]+" : Probleme DTT Ab Hebdo\n")
+                            phrase="Probleme DTT Ab Hebdo"
+                            var=results[i]['Date'][j]
+                            return render_template('Probleme.html',phrase=phrase,var=var)
                         if results[i]['Dtt Ecart Ab Mens'][j] != 0 :
-                            print(results[i]['Date'][j]+" : Probleme DTT Ab Mens\n") 
+                            phrase="Probleme DTT Ab Mens" 
+                            var=results[i]['Date'][j]
+                            return render_template('Probleme.html',phrase=phrase,var=var)
                         if (results[i]['Dtt Ecart Ab Mens Etud'][j] != 0) :
                             print(results[i]['Date'][j]+" : Probleme DTT Ab Mens Etud\n")
+                            var=results[i]['Date'][j]
+                            return render_template('Probleme.html',phrase=phrase,var=var)
                         if (results[i]['Agence Ecart support BSC'][j] != 0) :
-                            print(results[i]['Date'][j]+" : Probleme Agence support BSC\n")
+                            phrase="Probleme Agence support BSC"
+                            var=results[i]['Date'][j]
+                            return render_template('Probleme.html',phrase=phrase,var=var)
                         if (results[i]['Agence Ecart support CSC'][j] != 0) :
-                            print(results[i]['Date'][j]+" : Probleme Agence support CSC\n")
+                            phrase="Probleme Agence support CSC"
+                            var=results[i]['Date'][j]
+                            return render_template('Probleme.html',phrase=phrase,var=var)
                         if (results[i]['Agence Ecart voyage'][j] != 0) :
-                            print(results[i]['Date'][j]+" : Probleme Agence Voyage\n")  
+                            phrase="Probleme Agence Voyage"
+                            var=results[i]['Date'][j]
+                            return render_template('Probleme.html',phrase=phrase,var=var)  
                         if (results[i]['Agence Ecart Ab Hebdo'][j] != 0) :
-                            print(results[i]['Date'][j]+" : Probleme Agence Ab Hebdo\n")                
+                            phrase="Probleme Agence Ab Hebdo"
+                            var=results[i]['Date'][j]
+                            return render_template('Probleme.html',phrase=phrase,var=var)                
                         if (results[i]['Agence Ecart Ab Mens'][j] != 0) :
-                            print(results[i]['Date'][j]+" : Probleme Agence Ab Mens\n")                
+                            phrase="Probleme Agence Ab Mens"
+                            var=results[i]['Date'][j]
+                            return render_template('Probleme.html',phrase=phrase,var=var)               
                         if (results[i]['Agence Ecart Ab Mens Etud'][j] != 0) :
-                            print(results[i]['Date'][j]+" : Probleme Agence Ab Mens Etud\n")                
+                            phrase="Probleme Agence Ab Mens Etud"
+                            var=results[i]['Date'][j]
+                            return render_template('Probleme.html',phrase=phrase,var=var)                
                         if (results[i]['Depo Ecart support BSC'][j] != 0) :
-                            print(results[i]['Date'][j]+" : Probleme Depo support BSC\n")                
+                            phrase="Probleme Depo support BSC"
+                            var=results[i]['Date'][j]
+                            return render_template('Probleme.html',phrase=phrase,var=var)               
                         if (results[i]['Depo Ecart support CSC'][j] != 0) :
-                            print(results[i]['Date'][j]+" : Probleme Depo support CSC\n")                                      
+                            phrase="Probleme Depo support CSC"
+                            var=results[i]['Date'][j]
+                            return render_template('Probleme.html',phrase=phrase,var=var)                                     
                         if (results[i]['Depo Ecart voyage'][j] != 0) :
-                            print(results[i]['Date'][j]+" : Probleme Depo Voyage\n")
+                            phrase="Probleme Depo Voyage"
+                            var=results[i]['Date'][j]
+                            return render_template('Probleme.html',phrase=phrase,var=var)
                         if (results[i]['Depo Ecart Ab Hebdo'][j] != 0) :
-                            print(results[i]['Date'][j]+" : Probleme Depo Ab Hebdo\n")                      
+                            phrase="Probleme Depo Ab Hebdo"
+                            var=results[i]['Date'][j]
+                            return render_template('Probleme.html',phrase=phrase,var=var)                      
                         if (results[i]['Depo Ecart Ab Mens'][j] != 0) :
-                            print(results[i]['Date'][j]+" : Probleme Depo Ab Mens\n")                      
+                            phrase="Probleme Depo Ab Mens"
+                            var=results[i]['Date'][j]
+                            return render_template('Probleme.html',phrase=phrase,var=var)                     
                         if (results[i]['Depo Ecart Ab Mens Etud'][j] != 0) :
-                            print(results[i]['Date'][j]+" : Probleme Depo Ab Mens Etud\n")                      
+                            phrase="Probleme Depo Ab Mens Etud" 
+                            var=results[i]['Date'][j]
+                            return render_template('Probleme.html',phrase=phrase,var=var)                    
                         if (results[i]['PV Ecart support BSC'][j] != 0) :
-                            print(results[i]['Date'][j]+" : Probleme PV Support BSC\n")                      
+                            phrase="Probleme PV Support BSC"
+                            var=results[i]['Date'][j]
+                            return render_template('Probleme.html',phrase=phrase,var=var)                     
                         if results[i]['PV Ecart voyage'][j] != 0 :
-                            print(results[i]['Date'][j]+" : Probleme PV Voyage\n")
+                            phrase="Probleme PV Voyage"
+                            var=results[i]['Date'][j]
+                            return render_template('Probleme.html',phrase=phrase,var=var)
                         
                 except Exception as e :
                     print(e)
@@ -412,9 +440,20 @@ def consolidation():
             depo_total = data0["ca_depo_support_b"] + data0["ca_depo_support_c"] + data0["ca_depo_voyage"] + data0["ca_depo_ab_hebdo"] + data0["ca_depo_ab_mens"] + data0["ca_depo_ab_mens_etud"]
             data0.insert(41, 'depo_total', depo_total)
 
-            #calcul total row
-            #data0.loc['Somme']= data0.sum()
             data0 = data0.sort_values(by=['date'])
+
+            data0.insert(26, 'dtt_BO', data_BO['DTT'])
+            data0.insert(35, 'agence_BO', data_BO['TPV'])
+            data0.insert(44, 'depo_BO', data_BO['TV'])
+            #drop usless columns
+            data0 = data0.drop(data0.iloc[:, 1:21],axis = 1)
+            #total columns coloration
+            def highlight_cols(s):
+                color = 'yellow'
+                return 'background-color: %s' % color
+
+            data0 = data0.style.applymap(highlight_cols, subset=pd.IndexSlice[:, ['dtt_total','agence_total', 'depo_total']])
+
             depart=startDate.strftime("%Y-%m-%d")
             fin=endDate.strftime("%Y-%m-%d")
             
