@@ -620,7 +620,7 @@ def comparaison():
         global startDate  #pour pouvoir utiliser ces variables par la suite dans le traitement
         global result,fil
         if request.form['action']=='Confirmer':
-            startDate=datetime.strptime(request.form['Date'],'%Y-%m-%d') 
+            startDate=datetime.strptime(request.form['startdate'],'%Y-%m-%d') 
         #1er fichier BO:
         if request.form['action']=='Télécharger le 1er fichier BO':
             fil = []
@@ -629,10 +629,13 @@ def comparaison():
             fil= request.files['uploadExcels']
             fil.save(os.path.join(app.config['UPLOAD_FOLDER'], fil.filename))
             result = pd.read_excel(fil)
+            result =result[:-1]
 
-            result['Date et Heure Transaction']= pd.to_datetime(result['Date et Heure Transaction'])
-            result = result.rename(columns={'Montant':'Montant fichier 1'}, inplace = False)
-            result['Date et Heure Transaction'] = data_BO['Date et Heure Transaction'].apply(lambda t: t.replace(second=0))
+            result['Date']= pd.to_datetime(result['Date'])
+            result = result.rename(columns={'DTT':'DTT_BO1'}, inplace = False)
+            result = result.rename(columns={'TPV':'TPV_BO1'}, inplace = False)
+            result = result.rename(columns={'TV':'TV_BO1'}, inplace = False)
+            result = result.loc[:, ~result.columns.str.contains('\s')]
                 
         #2ème fichier BO:
         if request.form['action']=='Télécharger le 2ème fichier BO':
@@ -640,26 +643,48 @@ def comparaison():
             file_BO = request.files['uploadBoe']
             file_BO.save(os.path.join(app.config['UPLOAD_FOLDER'], file_BO.filename))
             data_BO = pd.read_excel(file_BO)
+            data_BO= data_BO[:-1]
 
-            data_BO['Date et Heure Transaction']= pd.to_datetime(data_BO['Date et Heure Transaction'])
-            data_BO = data_BO.rename({'Montant':'Montant fichier 2'}, inplace = False) 
-            data_BO['Date et Heure Transaction'] = data_BO['Date et Heure Transaction'].apply(lambda t: t.replace(second=0))
-                       
-            #group by date
-            result = result.groupby(by=["Date"]).sum()
-            result = result.reset_index()
-
-            data_BO = data_BO.groupby(by=["Date"]).sum()
-            data_BO = data_BO.reset_index()
+            data_BO['Date']= pd.to_datetime(data_BO['Date'])
+            data_BO = data_BO.rename(columns={'DTT':'DTT_BO2'}, inplace = False)
+            data_BO = data_BO.rename(columns={'TPV':'TPV_BO2'}, inplace = False)
+            data_BO = data_BO.rename(columns={'TV':'TV_BO2'}, inplace = False)
+            data_BO = data_BO.loc[:, ~data_BO.columns.str.contains('\s')]
 
             #Calcul de l'écart:
-            result1 = result.merge(data_BO, on = ["Date"], how="outer")
+            result1 = result.merge(data_BO, on = ["Date"], how="left")
             result1 = result1.fillna(0)
-            result1['Ecart BO'] = result1['Montant fichier 1'] - result1['Montant fichier 2'] 
+
+            result1['ecart_dtt'] = result1['DTT_BO1'] - result1['DTT_BO2']
+            result1['ecart_tpv']= result1['TPV_BO1'] - result1['TPV_BO2'] 
+            result1['ecart_tv'] = result1['TV_BO1'] - result1['TV_BO2'] 
+
+            def highlight_cols(s):
+                color = 'yellow'
+                return 'background-color: %s' % color
+
+            #affichage colonne de l'erreur si ecart != 0
+            for j in range(len(result1)) :
+                if result1['ecart_dtt'][j] != 0 :
+                    phrase="Probleme ecart DTT"
+                    var=result1['Date'][j]
+                    val=result1['ecart_dtt'][j]
+                    return render_template('Probleme_Comparaison.html',phrase=phrase,var=var,val=val)
+                if result1['ecart_tpv'][j] != 0 :
+                    phrase="Probleme ecart TPV"
+                    var=result1['Date'][j]
+                    val=result1['ecart_tpv'][j]
+                    return render_template('Probleme_Comparaison.html',phrase=phrase,var=var,val=val)
+                if result1['ecart_tv'][j] != 0 :
+                    phrase="Probleme ecart TV"
+                    var=result1['Date'][j]
+                    val=result1['ecart_tv'][j]
+                    return render_template('Probleme_Comparaison.html',phrase=phrase,var=var,val=val)
 
             date=startDate.strftime("%Y-%m-%d")
+            result1 = result1.style.applymap(highlight_cols, subset=pd.IndexSlice[:, ['ecart_dtt','ecart_tpv', 'ecart_tv']])
             result1.to_excel(r'C:\Users\lenovo\FlaskProject\project\Result_Comparaison_BO\Comparaison_BO_Du_'+str(date)+'.xlsx',index=False)
-            return render_template("result_controleBancaireTraitement.html",depart=depart,fin=fin)
+            return render_template("result_compare_BO.html",date=date)
             
     return render_template('comparaisonBO.html')
 
