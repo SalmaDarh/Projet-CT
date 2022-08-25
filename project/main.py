@@ -163,7 +163,7 @@ def consolidation():
 
 
         #La 2ème partie concerne le traitement des fichiers de consolidation: 
-        if request.form['action']=='ExcelFiles':
+        if request.form['action']=='Télécharger les fichiers de consolidation':
             global file,data,files,data0,results
             results = []
             data = []
@@ -180,8 +180,6 @@ def consolidation():
                     data[i]=data[i][:-1]
                     if list(data[i].columns)[0]=="Unnamed: 0" :
                         data[i] = data[i].drop(columns = ["Unnamed: 0"])
-                        #drop total row
-                        #data[i] = data[i].drop([len(data[i])-1]) 
                     data[i].columns = ['date','v_dtt_support','v_dtt_charge','v_dtt_ab_hebdo','v_dtt_ab_mens',\
                                         'v_dtt_ab_mens_etud','v_agence_support_b','v_agence_support_c','v_agence_voyage',\
                                         'v_agence_ab_hebdo','v_agence_ab_mens',\
@@ -423,7 +421,7 @@ def consolidation():
               
            
         #UPload file BO + Son Traitement:
-        if request.form['action']=='BoFile':
+        if request.form['action']=='Télécharger le fichier BO':
             app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER_2
             f = request.files['uploadBo']
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
@@ -507,7 +505,7 @@ def controleTransaction():
             endDate=datetime.strptime(request.form['enddate'],'%Y-%m-%d')           
 
         #La 2ème partie concerne le traitement des transactions:
-        if request.form['action']=='ExcelFile':
+        if request.form['action']=='Télécharger le fichier du contrôle bancaire':
             fil = []
             result = []
             app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER_4
@@ -516,13 +514,13 @@ def controleTransaction():
             #concat all transactions
             result = pd.concat(pd.read_excel(fil, sheet_name=None) , ignore_index=True)
             #Rename columns, drop ...
-            #result = result.drop(columns=['Nom Commerçant', 'ID Commerçant', 'ARN', 'N° Carte', 'Type carte'])
+            result = result.drop(columns=['Nom Commerçant', 'N° Commerçant', 'PTID', 'N° Carte', 'Type carte'])
             result = result.rename(columns={'Date Transaction':'Date et Heure Transaction','Montant ':'Montant Naps'}, inplace = False) 
             result['Date et Heure Transaction']= pd.to_datetime(result['Date et Heure Transaction'])
               
            
         #UPload file BO + Traitements:
-        if request.form['action']=='BoFiles':
+        if request.form['action']=='Télécharger le fichier BO':
             app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER_2
             file_BO = request.files['uploadBoe']
             file_BO.save(os.path.join(app.config['UPLOAD_FOLDER'], file_BO.filename))
@@ -567,7 +565,7 @@ def controleTraitement():
             endDate=datetime.strptime(request.form['enddate'],'%Y-%m-%d')           
 
         #La 2ème partie concerne le traitement des transactions:
-        if request.form['action']=='ExcelFile':
+        if request.form['action']=='Télécharger le fichier du contrôle bancaire':
             fil = []
             result = []
             app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER_4
@@ -581,7 +579,7 @@ def controleTraitement():
               
            
         #UPload file BO + Traitements:
-        if request.form['action']=='BoFiles':
+        if request.form['action']=='Télécharger le fichier BO':
             app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER_2
             file_BO = request.files['uploadBoe']
             file_BO.save(os.path.join(app.config['UPLOAD_FOLDER'], file_BO.filename))
@@ -610,6 +608,65 @@ def controleTraitement():
             return render_template("result_controleBancaireTraitement.html",depart=depart,fin=fin)
             
     return render_template('controleParTraitement.html')
+
+
+
+
+#Comparaison entre 2 fichiers BO:
+@app.route('/accueil/ComparaisonBO/',methods = ['POST', 'GET'])
+def comparaison():
+    #Declarations:
+    global result,fil
+    if request.method == 'POST':    
+        global startDate  #pour pouvoir utiliser ces variables par la suite dans le traitement
+        global result,fil
+        if request.form['action']=='Confirmer':
+            startDate=datetime.strptime(request.form['Date'],'%Y-%m-%d') 
+        #1er fichier BO:
+        if request.form['action']=='Télécharger le 1er fichier BO':
+            fil = []
+            result = []
+            app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER_2
+            fil= request.files['uploadExcels']
+            fil.save(os.path.join(app.config['UPLOAD_FOLDER'], fil.filename))
+            result = pd.read_excel(fil)
+
+            result['Date et Heure Transaction']= pd.to_datetime(result['Date et Heure Transaction'])
+            result = result.rename(columns={'Montant':'Montant fichier 1'}, inplace = False)
+            result['Date et Heure Transaction'] = data_BO['Date et Heure Transaction'].apply(lambda t: t.replace(second=0))
+              
+           
+        #UPload file BO + Traitements:
+        if request.form['action']=='Télécharger le 2ème fichier BO':
+            app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER_2
+            file_BO = request.files['uploadBoe']
+            file_BO.save(os.path.join(app.config['UPLOAD_FOLDER'], file_BO.filename))
+            data_BO = pd.read_excel(file_BO)
+
+            data_BO['Date et Heure Transaction']= pd.to_datetime(data_BO['Date et Heure Transaction'])
+            data_BO = data_BO.rename({'Montant':'Montant fichier 2'}, inplace = False) 
+            data_BO['Date et Heure Transaction'] = data_BO['Date et Heure Transaction'].apply(lambda t: t.replace(second=0))
+                       
+            #group by date
+            result = result.groupby(by=["Date"]).sum()
+            result = result.reset_index()
+
+            data_BO = data_BO.groupby(by=["Date"]).sum()
+            data_BO = data_BO.reset_index()
+
+            #Calcul de l'écart:
+            result1 = result.merge(data_BO, on = ["Date"], how="outer")
+            result1 = result1.fillna(0)
+            result1['Ecart BO'] = result1['Montant fichier 1'] - result1['Montant fichier 2'] 
+
+            date=startDate.strftime("%Y-%m-%d")
+            result1.to_excel(r'C:\Users\lenovo\FlaskProject\project\Result_Comparaison_BO\Comparaison_BO_Du_'+str(date)+'.xlsx',index=False)
+            return render_template("result_controleBancaireTraitement.html",depart=depart,fin=fin)
+            
+    return render_template('comparaisonBO.html')
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
