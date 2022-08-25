@@ -149,7 +149,6 @@ def logout():
 
 
 
-
 @app.route('/accueil/consolidation/',methods = ['POST', 'GET'])
 def consolidation():
     #Declarations:
@@ -634,9 +633,8 @@ def comparaison():
             result['Date et Heure Transaction']= pd.to_datetime(result['Date et Heure Transaction'])
             result = result.rename(columns={'Montant':'Montant fichier 1'}, inplace = False)
             result['Date et Heure Transaction'] = data_BO['Date et Heure Transaction'].apply(lambda t: t.replace(second=0))
-              
-           
-        #UPload file BO + Traitements:
+                
+        #2ème fichier BO:
         if request.form['action']=='Télécharger le 2ème fichier BO':
             app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER_2
             file_BO = request.files['uploadBoe']

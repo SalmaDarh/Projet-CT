@@ -4,14 +4,12 @@
 
 {% block content %}
 
-<h1 class="consol" style="color: #f29526;">Comparaison entre 2 fichiers BO</h1>
+<h1 class="consol" style="color: #f29526;">Comparaison entre deux fichiers BO</h1>
 <div>
     <h2 style="color: #008bcc;">Veuillez choisir une date:</h2>
     <form action="{{ url_for('controleTraitement') }}" method="post">
         <label for="startDate" >Date début:</label>
         <input type="date" name="startdate" id="startdate"  required>
-        <label for="birthday">Date fin:</label>
-        <input type="date" name="enddate" id="enddate" required>
         <input type="submit" name="action"value="Confirmer">
     </form>
 </div>
