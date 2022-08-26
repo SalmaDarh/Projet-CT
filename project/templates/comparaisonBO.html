@@ -4,9 +4,9 @@
 
 {% block content %}
 
-<h1 class="consol" style="color: #f29526;">Comparaison entre deux fichiers BO</h1>
+<h2 class="consol" style="color: #f29526;">Comparaison entre deux fichiers BO</h2>
 <div>
-    <h2 style="color: #008bcc;">Veuillez choisir une date:</h2>
+    <h3 style="color: #008bcc;">Veuillez choisir une date:</h3>
     <form action="{{ url_for('comparaison') }}" method="post">
         <label for="startDate" >Date début:</label>
         <input type="date" name="startdate" id="startdate"  required>
@@ -14,7 +14,7 @@
     </form>
 </div>
 <div>
-    <h2 style="color: #008bcc;">Veuillez télécharger le 1er fichier BO:</h2>
+    <h3 style="color: #008bcc;">Veuillez télécharger l'ancien fichier BO:</h3>
     <br>
     <form action="{{ url_for('comparaison') }}" method="post" enctype="multipart/form-data">
         <input type="file" value="Upload" name="uploadExcels" id="uploadExcels" >
@@ -23,7 +23,7 @@
 </div>
 
 <div>
-    <h2 style="color: #008bcc;">Veuillez télécharger le 2ème fichier BO:</h2>
+    <h3 style="color: #008bcc;">Veuillez télécharger le fichier BO récent:</h3>
     <br>
     <form action="{{ url_for('comparaison') }}" method="post" enctype="multipart/form-data">
         <input type="file" value="Upload" name="uploadBoe" id="uploadBoe" >

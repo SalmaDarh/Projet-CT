@@ -19,14 +19,29 @@ strong{
     font-size: 18px;
 }
 .login, .register {
-    width: 350px;
+    position:absolute;
     background-color: #ffffff;
     box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
-    margin: 100px auto;
+    border-radius: 10px;
+    margin:  auto;
+    width: 80%;
     align-items: center;
+    text-align: center;
     margin-left: 20px;
-
 }
+
+.logins {
+    position:absolute;
+    background-color: #ffffff;
+    box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    margin:  auto;
+    width: 60%;
+    align-items: center;
+    text-align: center;
+    margin-left: 30px;
+}
+
 
 .red {
     color:#FF0000;
@@ -36,45 +51,59 @@ strong{
     color:#33FF3C;
 }
 
-.login h1,.logine h1, .register h1 {
+.login h1,.logine h1,.logins h1{
     text-align: center;
     color: #5b6574;
     font-size: 24px;
     padding: 20px 0 20px 0;
     border-bottom: 1px solid #dee0e4;
 }
-.login .links, .logine .links,.register .links {
+.login .links, .logine .links,.logins .links {
     display: flex;
     padding: 0 15px;
 }
-.login .links a,.logine .links a,.register .links a {
-    color: #adb2ba;
+.login .links a,.logine .links a {
+    color: #dee0e4;
     text-decoration: none;
     display: inline-flex;
     padding: 0px 10px 10px 10px;
     font-weight: bold;
+    width:25%;
+    text-align: center;
     margin-left: 15px;
     margin-right: 15px;
 }
-
-.login  .links a:hover, .logine .links a:hover,.register .links a:hover {
-    color: #9da3ac;
+.logins .links a {
+    color: #dee0e4;
+    text-decoration: none;
+    display: inline-flex;
+    padding: 0px 10px 10px 10px;
+    font-weight: bold;
+    width:50%;
+    text-align: center;
+    margin-left: 25px;
+    margin-right: 25px;
 }
-.login .links a.active,.logine .links a.active, .register .links a.active {
-    border-bottom: 3px solid #3274d6;
-    color: #3274d6;
+
+.login  .links a:hover, .logine .links a:hover,.logins .links a:hover {
+    color: #dee0e4;
+}
+.login .links a.active,.logine .links a.active, .logins .links a.active {
+    border-bottom: 3px solid #008BCC;
+    color: #008BCC;
 }
 .logine{
     width: 395px;
     height:400px;
     background-color: #ffffff;
+    border-radius: 10px;
     box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
     margin: 100px auto;
 }
 .login{
     width: 75%;
     margin: auto;
-    border:solid  rgb(245, 151, 29);
+    border:solid  #F29526;
     margin-bottom: 45px;
     margin-left: 50px;
 }
@@ -95,12 +124,12 @@ strong{
     margin-left: 569px;
 }
 .historique .link a.active{
-    border-bottom: 3px solid #3274d6;
-    color: #3274d6;
+    border-bottom: 3px solid #008BCC;
+    color: #008BCC;
 }
 
 .historique .link a:hover{
-    color: red;
+    color: #F29526;
     background-color: transparent;
     text-decoration: underline;
 }
