@@ -15,7 +15,7 @@ app = Flask(__name__)
 db=SQLAlchemy(app)
 
 #app.config['SQLALCHEMY_DATABASE_URI'] ='mysql://root:@localhost/DBlogin'
-app.config['SQLALCHEMY_DATABASE_URI'] ='postgres://ksqsrcsculkpxl:d07caf93a52ff619b49874381efaf3eb0972ae461bd23b7107d74cb173e90a52@ec2-52-205-61-230.compute-1.amazonaws.com:5432/d23t39ibh1132s'
+app.config['SQLALCHEMY_DATABASE_URI'] ='postgres://ydxsqyggdeczmz:4b20ba8409d8c4a58b98e8b532d571cb44e169a52daa1f7d8a5dc8f5079a5c2a@ec2-44-205-63-142.compute-1.amazonaws.com:5432/d6r16fh8a0gcv2'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # it's for extra protection)
 app.secret_key = ')6VQ)s*z26B#D*>'
