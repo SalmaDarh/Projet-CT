@@ -14,8 +14,9 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 db=SQLAlchemy(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] ='mysql://root:@localhost/DBlogin'
-#app.config['SQLALCHEMY_DATABASE_URI'] ='postgres://ydxsqyggdeczmz:4b20ba8409d8c4a58b98e8b532d571cb44e169a52daa1f7d8a5dc8f5079a5c2a@ec2-44-205-63-142.compute-1.amazonaws.com:5432/d6r16fh8a0gcv2'
+#app.config['SQLALCHEMY_DATABASE_URI'] ='mysql://root:@localhost/DBlogin'
+
+app.config['SQLALCHEMY_DATABASE_URI']='postgres://kxknemtmelhnoe:5114c7c4a16b5edb4ef1b7d660f9ffba70295a5466465604612222d286f2f384@ec2-3-217-113-25.compute-1.amazonaws.com:5432/d6svlihbs0m18v'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # it's for extra protection)
 app.secret_key = ')6VQ)s*z26B#D*>'
