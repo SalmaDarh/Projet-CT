@@ -14,8 +14,8 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 db=SQLAlchemy(app)
 
-#app.config['SQLALCHEMY_DATABASE_URI'] ='mysql://root:@localhost/DBlogin'
-app.config['SQLALCHEMY_DATABASE_URI'] ='postgres://ydxsqyggdeczmz:4b20ba8409d8c4a58b98e8b532d571cb44e169a52daa1f7d8a5dc8f5079a5c2a@ec2-44-205-63-142.compute-1.amazonaws.com:5432/d6r16fh8a0gcv2'
+app.config['SQLALCHEMY_DATABASE_URI'] ='mysql://root:@localhost/DBlogin'
+#app.config['SQLALCHEMY_DATABASE_URI'] ='postgres://ydxsqyggdeczmz:4b20ba8409d8c4a58b98e8b532d571cb44e169a52daa1f7d8a5dc8f5079a5c2a@ec2-44-205-63-142.compute-1.amazonaws.com:5432/d6r16fh8a0gcv2'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # it's for extra protection)
 app.secret_key = ')6VQ)s*z26B#D*>'
@@ -756,8 +756,8 @@ def comparaison():
 
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+##if __name__ == '__main__':
+  #  app.run(debug=True)
 
 
 
